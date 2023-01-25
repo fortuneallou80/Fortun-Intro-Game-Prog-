@@ -28,9 +28,12 @@
 
             // Model of MVC
             function update(){
+
+                // Gives ball movement 
                 pongX += pongVX
                 pongY += pongVY
 
+                // Keeps ball within rectangle margin
                 if(pongX > margin + size){
                     pongVX *= -1
                 }
@@ -50,11 +53,16 @@
 
             // View part of MVC
             function draw(){
+
+                // Expands the canvas to full screen
                 canvas.width = window.innerWidth
                 canvas.height = window.innerHeight
+
+                // Creates yellow canvas
                 ctx.fillStyle = "yellow"
                 ctx.fillRect(0, 0, canvas.width, canvas.height)
 
+                // Creates rectangle zone
                 ctx.strokeStyle = "black"
                 ctx.beginPath()
                 ctx.moveTo(margin, margin)
