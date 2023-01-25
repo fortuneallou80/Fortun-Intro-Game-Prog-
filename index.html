@@ -1,21 +1,85 @@
+<!DOCTYPE html>
 <html>
-<head>
-<title>NAG</title>
-<style>
+    <head>
+        <title>Pong</title>
+        <style>
+            body {
+                margin: 0;
+                overflow: hidden;
+            }
+        </style>
+    </head>
 
-</style>
-</head>
+    <body>
+        <canvas id = "canv"></canvas>
+        <script>
+            let canvas = document.querySelector("#canv")
+            let ctx = canvas.getContext("2d")
+            // ctx.fillRect(20, 50, 100, 150)
 
-<body>
-    <canvas id = "canv"></canvas>
-    <script>
-        let pufferFish = "Dangerous"
-        console.log(pufferFish)
+            let margin = 20
+            let size = 100
+            let pongX = margin + size / 2
+            let pongY = margin + size / 2
 
-        let canvas = document.querySelector("#canv")
-        let ctx = canvas.getContext("2d")
-        ctx.fillRect(50, 50, 200, 150)
-    </script>
-</body>
+            //Velocities
+            let pongVX = 4
+            let pongVY = 2
+
+            // Model of MVC
+            function update(){
+                pongX += pongVX
+                pongY += pongVY
+
+                if(pongX > margin + size){
+                    pongVX *= -1
+                }
+
+                if(pongY > margin + size){
+                    pongVY *= -1
+                }
+
+                if(pongX < margin){
+                    pongVX *= -1
+                }
+                
+                if(pongY < margin){
+                    pongVY *= -1
+                }
+            }
+
+            // View part of MVC
+            function draw(){
+                canvas.width = window.innerWidth
+                canvas.height = window.innerHeight
+                ctx.fillStyle = "yellow"
+                ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+                ctx.strokeStyle = "black"
+                ctx.beginPath()
+                ctx.moveTo(margin, margin)
+                ctx.lineTo(margin + size, margin)
+                ctx.lineTo(margin + size, margin + size)
+                ctx.lineTo(margin, margin + size)
+                ctx.lineTo(margin, margin)
+                ctx.stroke()
+
+                // Creates the ball + color
+                ctx.fillStyle = "blue"
+                ctx.beginPath()
+                ctx.arc(pongX, pongY, 5, 0, Math.PI * 2)
+                ctx.fill()
+            }
+
+            // Loop the game
+            function gameLoop(){
+                update()
+                draw()
+            }
+
+            setInterval(gameLoop, 1000 / 25)
+           
+        </script>
+    </body>
 
 </html>
