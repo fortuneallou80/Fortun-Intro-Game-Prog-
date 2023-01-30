@@ -15,6 +15,38 @@
         <script>
             let canvas = document.querySelector("#canv")
             let ctx = canvas.getContext("2d")
+
+            let keysDown = []
+            document.addEventListener("KeyDown", keyDown)
+            document.addEventListener("keyUp", keyDown)
+
+            if(!0){
+                console.log("falsey")
+            }
+
+            function keyDown(e){
+                // console.log(e)
+                keysDown[e.key] = true
+                if (e.key == "ArrowLeft"){
+                    console.log("Down Left")
+                }
+
+                if (e.key == "ArrowRight"){
+                    console.log("Down Right")
+                }
+            }
+
+            function KeyUp(e){
+                // console.log(e)
+                keysDown[e.key] = false
+                if (e.key == "ArrowLeft"){
+                    console.log("Up Left")
+                }
+
+                if (e.key == "ArrowRight"){
+                    console.log("Up Right")
+                }
+            }
             // ctx.fillRect(20, 50, 100, 150)
 
             let margin = 20
@@ -29,6 +61,7 @@
             // Model of MVC
             function update(){
 
+                // console.log(keysDown)
                 // Gives ball movement 
                 pongX += pongVX
                 pongY += pongVY
@@ -85,6 +118,7 @@
                 draw()
             }
 
+            // How fast the ball is moving
             setInterval(gameLoop, 1000 / 25)
            
         </script>
