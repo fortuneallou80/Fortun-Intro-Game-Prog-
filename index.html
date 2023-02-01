@@ -20,12 +20,15 @@
             document.addEventListener("KeyDown", keyDown)
             document.addEventListener("keyUp", keyDown)
 
-            if(!0){
-                console.log("falsey")
-            }
+
+
+
 
             function keyDown(e){
-                // console.log(e)
+
+                if(sceneIndex == 0){
+                    
+                }else if(sceneIndex == 1){
                 keysDown[e.key] = true
                 if (e.key == "ArrowLeft"){
                     console.log("Down Left")
@@ -35,9 +38,13 @@
                     console.log("Down Right")
                 }
             }
+            }
 
             function KeyUp(e){
-                // console.log(e)
+
+                if(sceneIndex == 0){
+                    sceneIndex = 1
+                }else if(sceneIndex == 0){
                 keysDown[e.key] = false
                 if (e.key == "ArrowLeft"){
                     console.log("Up Left")
@@ -47,7 +54,16 @@
                     console.log("Up Right")
                 }
             }
-            // ctx.fillRect(20, 50, 100, 150)
+                if(e.key == "p"){
+                    isPaused = !isPaused
+                }
+            }
+
+            let sceneIndex = 0
+
+            // 0 = opening game
+            // 1 = game
+            // 2 = you die
 
             let margin = 20
             let size = 100
@@ -58,10 +74,20 @@
             let pongVX = 4
             let pongVY = 2
 
+            //Model for paddle
+            let paddleX = margin + size / 2
+            let paddleWidth = 30
+
+            let isPaused = false
+
+
+
+
+
             // Model of MVC
             function update(){
 
-                // console.log(keysDown)
+                
                 // Gives ball movement 
                 pongX += pongVX
                 pongY += pongVY
@@ -72,8 +98,14 @@
                 }
 
                 if(pongY > margin + size){
-                    pongVY *= -1
-                }
+                    if(pongX > paddleX - paddleWidth / 2 && pongX < paddleX + paddleWidth / 2){
+                    // pongVY *= -1
+                    pongVY = -Math.abs(pongVY)
+                    score++
+                    } else{
+                        window.reload()
+                    }
+                } 
 
                 if(pongX < margin){
                     pongVX *= -1
@@ -82,11 +114,47 @@
                 if(pongY < margin){
                     pongVY *= -1
                 }
+
+                // Pull the keyboard state & move paddle
+
+                if(keyDown["ArrowRight"]){
+                    paddleX += 1
+                }
+
+                if(keyDown["ArrowLeft"]){
+                    paddleX -= 1
+                }
+
+                if(paddleX - paddleWidth / 2 < margin){
+                    paddleX = margin + paddleWidth / 2
+                }
+
+                if(paddleX + paddleWidth / 2 > size + margin){
+                    paddleX = size + margin - paddleWidth / 2
+                }
+
+                if(isPaused) return
             }
+
+
+
+
+
 
             // View part of MVC
             function draw(){
 
+                if(sceneIndex == 0){
+                    canvas.width = window.innerWidth
+                canvas.height = window.innerHeight
+
+                // Creates blue canvas for startup screen
+                ctx.fillStyle = "blue"
+                ctx.fillRect(0, 0, canvas.width, canvas.height)
+                ctx.fillStyle = "white"
+                ctx.fillText("Pong", 0, 10)
+                }else{
+                    
                 // Expands the canvas to full screen
                 canvas.width = window.innerWidth
                 canvas.height = window.innerHeight
@@ -101,7 +169,7 @@
                 ctx.moveTo(margin, margin)
                 ctx.lineTo(margin + size, margin)
                 ctx.lineTo(margin + size, margin + size)
-                ctx.lineTo(margin, margin + size)
+                ctx.moveTo(margin, margin + size)
                 ctx.lineTo(margin, margin)
                 ctx.stroke()
 
@@ -110,6 +178,17 @@
                 ctx.beginPath()
                 ctx.arc(pongX, pongY, 5, 0, Math.PI * 2)
                 ctx.fill()
+
+                // Draw paddle
+                ctx.beginPath()
+                ctx.moveTo(paddleX - paddleWidth / 2, size + margin)
+                ctx.lineTo(paddleX + paddleWidth / 2, size + margin)
+                ctx.stroke()
+
+                ctx.fillText(score, 0, 10)
+
+
+                }
             }
 
             // Loop the game
