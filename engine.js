@@ -14,11 +14,7 @@ let mouseY
     document.addEventListener("mousemove", mouseMove);
 
 
-<<<<<<< HEAD
     //0 is start scene, 1 is instruction scene, 2 main scene, 3 is dead scene
-=======
-    //0 is start scene, 1 main scene, 2 is dead scene
->>>>>>> 2f7e860d1fb49043a5072a56399152dd97f56d67
     let scene = 0;
     let pause = false
 
@@ -45,10 +41,6 @@ let mouseY
         if(e.key == "p"){
             pause = !pause
         }
-<<<<<<< HEAD
-=======
-        
->>>>>>> 2f7e860d1fb49043a5072a56399152dd97f56d67
       }
   
       function keyDown(e) {
@@ -70,10 +62,6 @@ let mouseY
       function engineUpdate(){
         if(pause) return
         update()
-<<<<<<< HEAD
-
-=======
->>>>>>> 2f7e860d1fb49043a5072a56399152dd97f56d67
       }
 
       function engineDraw(){
@@ -81,10 +69,7 @@ let mouseY
         canvas.height = window.innerHeight
         draw()
       }
-<<<<<<< HEAD
       
-=======
->>>>>>> 2f7e860d1fb49043a5072a56399152dd97f56d67
 
       function start(title){
 
@@ -95,11 +80,4 @@ let mouseY
         }
     
         setInterval(gameLoop, 1000 / 25)
-<<<<<<< HEAD
-=======
-
-        if(points == 10){
-          setInterval(gameLoop, 1000 / 50)
-        }
->>>>>>> 2f7e860d1fb49043a5072a56399152dd97f56d67
       }

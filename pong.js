@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 let margin = 137;
 let size = 140;
-=======
-let margin = 20;
-let size = 100;
->>>>>>> 2f7e860d1fb49043a5072a56399152dd97f56d67
 
 
 let pongX = margin + size / 2
@@ -51,7 +46,6 @@ function update() {
         console.log("You are dead")
         scene = 3;
       } 
-<<<<<<< HEAD
       if (points == 5){
           level++;
           paddleWidth = paddleWidth - 7;
@@ -65,10 +59,6 @@ function update() {
         if (points == 15){
           level++;
           paddleWidth = paddleWidth - 7;
-=======
-      if (points == 10){
-          level++;
->>>>>>> 2f7e860d1fb49043a5072a56399152dd97f56d67
         }
     }
     if (pongX < margin) {
@@ -120,11 +110,7 @@ function draw() {
     ctx.fillText("Instructions on how to play:", 125, 90);
     ctx.fillText("1. Hold the left or right arrow keys to move the paddle back and forth", 40, 140);
     ctx.fillText("2. Press P to pause the game", 120, 160);
-<<<<<<< HEAD
     ctx.fillText("3. With the level increasing every 5 points, the paddle gets shorter.", 47, 180);
-=======
-    ctx.fillText("3. The difficulty increases every 10 points earned", 75, 180);
->>>>>>> 2f7e860d1fb49043a5072a56399152dd97f56d67
     ctx.fillText("4. DO NOT DIE!!!!", 145, 200);
     ctx.fillText("PRESS A TO START", 137, 270);
   }
@@ -148,21 +134,14 @@ function draw() {
     ctx.lineTo(paddleX + paddleWidth / 2, margin + size)
     ctx.stroke()
 
-<<<<<<< HEAD
     //Creating the ball
     ctx.fillStyle = "red"
-=======
-    ctx.fillStyle = "blue"
->>>>>>> 2f7e860d1fb49043a5072a56399152dd97f56d67
 
     ctx.beginPath()
     ctx.arc(pongX, pongY, 5, 0, Math.PI * 2)
     ctx.fill()
 
-<<<<<<< HEAD
     // Level & Points text
-=======
->>>>>>> 2f7e860d1fb49043a5072a56399152dd97f56d67
     ctx.fillStyle = "red"
     ctx.fillText("Level:", 130, 10);
     ctx.fillText(level, 163, 10);
