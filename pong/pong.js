@@ -34,6 +34,27 @@ class InstructionsScene extends Scene{
   }
 }
 
+class LevelOne extends Scene {
+  start(){
+    this.freezeTime = 0
+    this.maxFreezeTime = 1
+    this.level = 1;
+}
+  update() {
+    this.freezeTime += 25/1000
+    if (this.freezeTime >= this.maxFreezeTime) {
+        SceneManager.changeScene(3)
+    }
+}
+  draw(ctx){
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, 390, 320);
+    ctx.fillStyle = "white";
+    ctx.fillText("LEVEL " + this.level, 170, 140);
+  }
+
+}
+
 class MainScene extends Scene {
   start(){
     this.margin = 137;
@@ -47,6 +68,8 @@ class MainScene extends Scene {
     this.paddleWidth = 40;
     this.points = 0;
     this.level = 1;
+    this.highScore = localStorage.getItem("this.highScore")
+    // this.lives = 3;
   }
 
   update(){
@@ -61,26 +84,38 @@ class MainScene extends Scene {
       //Check for a collision with the paddle
       if (this.paddleX - this.paddleWidth / 2 <= this.pongX && this.paddleX + this.paddleWidth / 2 >= this.pongX){
         this.pongVY *= -1
-        this.points++}
+        this.points++
+      }
 
       else {
-        SceneManager.changeScene(3)
+        SceneManager.changeScene(4)
       } 
+
+      if(this.highScore !== 0){
+        if (this.points > this.highScore){
+          localStorage.setItem("this.highScore", this.points)
+        }
+      }
+      else{
+        localStorage.setItem("this.highScore", this.points)
+      }
+
       if (this.points == 5){
-          this.level++;
-          this.paddleWidth = this.paddleWidth - 7;
-        }
+        this.level++;
+        this.paddleWidth = this.paddleWidth - 7;
+      }
 
-        if (this.points == 10){
-          this.level++;
-          this.paddleWidth = this.paddleWidth - 7;
-        }
+      if (this.points == 10){
+        this.level++;
+        this.paddleWidth = this.paddleWidth - 7;
+      }
 
-        if (this.points == 15){
-          this.level++;
-          this.paddleWidth = this.paddleWidth - 7;
-        }
+      if (this.points == 15){
+        this.level++;
+        this.paddleWidth = this.paddleWidth - 7;
+      }
     }
+    
     if (this.pongX < this.margin) {
       this.pongVX *= -1
     }
@@ -132,12 +167,16 @@ class MainScene extends Scene {
        ctx.arc(this.pongX, this.pongY, 5, 0, Math.PI * 2)
        ctx.fill()
    
-       // Level & Points text
+       // Level & Points text & Lives
        ctx.fillStyle = "red"
-       ctx.fillText("Level:", 130, 10);
-       ctx.fillText(this.level, 163, 10);
-       ctx.fillText("Points:", 200, 10);
-       ctx.fillText(this.points, 237, 10);
+       ctx.fillText("Level:", 100, 10);
+       ctx.fillText(this.level, 133, 10);
+       ctx.fillText("Points:", 170, 10);
+       ctx.fillText(this.points, 207, 10);
+       ctx.fillText("High Score:", 237, 10);
+       ctx.fillText(this.highScore, 300, 10);
+      //  ctx.fillText("Lives:", 330, 10);
+      //  ctx.fillText(this.lives, 360, 10);
 
   }
 }
@@ -162,8 +201,11 @@ let startScene = new StartScene()
 let instructionsScene = new InstructionsScene()
 let mainScene = new MainScene()
 let endScene = new EndScene()
+let levelOne = new LevelOne()
 
 SceneManager.addScene(startScene)
 SceneManager.addScene(instructionsScene)
+SceneManager.addScene(levelOne)
 SceneManager.addScene(mainScene)
 SceneManager.addScene(endScene)
+
