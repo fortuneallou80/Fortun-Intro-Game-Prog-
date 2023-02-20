@@ -9,7 +9,7 @@ class StartScene extends Scene {
     ctx.fillStyle = "blue";
     ctx.fillRect(0, 0, 390, 320);
     ctx.fillStyle = "white";
-    ctx.fillText("Welcome to Pong", 145, 130);
+    ctx.fillText("Welcome to Pongy", 145, 130);
     ctx.fillText("Press the Space Key To start the game", 97, 160);
   }
 }
