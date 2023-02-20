@@ -94,7 +94,6 @@ function update() {
 }
 
 function draw() {
-
   if (scene == 0) {
     ctx.fillStyle = "blue";
     ctx.fillRect(0, 0, 390, 320);
