@@ -60,8 +60,15 @@ let mouseY
         if (e.key == "ArrowRight") {
           console.log("Up Right")
         }
+        if (e.key == "ArrowUp") {
+          console.log("Up Up")
+        }
+        if (e.key == "ArrowDown") {
+          console.log("Up Down")
+        }
         if(e.key == "p"){
             pause = !pause
+            console.log("p is pressed")
         }
       }
   
@@ -73,6 +80,12 @@ let mouseY
         }
         if (e.key == "ArrowRight") {
           console.log("Down Right")
+        }
+        if (e.key == "ArrowUp") {
+          console.log("Down Up")
+        }
+        if (e.key == "ArrowDown") {
+          console.log("Down Down")
         }
         //To prevent scrolling (if needed)
         //This has to be in keyDown, not keyup
@@ -93,8 +106,8 @@ let mouseY
       }
 
       function engineDraw(){
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
+        canvas.width = 390
+        canvas.height = 320
         SceneManager.getActiveScene().draw(ctx)
       }
       
@@ -107,5 +120,5 @@ let mouseY
             engineDraw()
         }
     
-        setInterval(gameLoop, 1000 / 25)
+        setInterval(gameLoop, 1000 / 10)
       }
