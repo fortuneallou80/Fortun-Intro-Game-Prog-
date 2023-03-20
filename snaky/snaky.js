@@ -1,4 +1,4 @@
-import "/engine/engine.js";
+import "../engine/engine.js";
 
 // Scene 0 = Start Scene
 // Scene 1 = Instructions Scene
@@ -98,7 +98,7 @@ class InstructionsScene extends Scene {
   start() {
     this.addGameObject(new InstructionsControllerGameObject())
     this.addGameObject(new InstructionsDrawGameObject())
-}
+  }
 }
 
 /////////////////////////////////////////////////

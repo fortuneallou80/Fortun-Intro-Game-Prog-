@@ -1,7 +1,7 @@
-import "./Component.js"
-import "./GameObject.js"
-import "./Scene.js"
 import "./SceneManager.js"
+import "./Component.js"
+import "./Scene.js"
+import "./GameObject.js"
 
 let canvas = document.querySelector("#canv")
 let ctx = canvas.getContext("2d");
@@ -20,7 +20,6 @@ document.addEventListener("mousemove", mouseMove);
 
 
 //0 is start scene, 1 is instruction scene, 2 main scene, 3 is dead scene
-let scene = 0;
 let pause = false
 
 function mouseDown(e) {
