@@ -1,3 +1,5 @@
+import "/engine/engine.js";
+
 // Scene 0 = Start Scene
 // Scene 1 = Instructions Scene
 // Scene 2 = Level Scene
@@ -8,13 +10,15 @@
 ////////////////// START SCENE /////////////////
 ////////////////////////////////////////////////
 
-class StartScene extends Scene {
+class StartController extends Component {
   update() {
     if (keysDown[" "]) {
       SceneManager.changeScene(1)
     }
   }
+}
 
+class StartDrawComponent extends Component{
   draw(ctx) {
     ctx.fillStyle = "#FFD580";
     ctx.fillRect(0, 0, 390, 320);
@@ -24,18 +28,39 @@ class StartScene extends Scene {
   }
 }
 
+class StartControllerGameObject extends GameObject{
+  start(){
+    this.addComponent(new StartController())
+  }
+}
+
+class StartDrawGameObject extends GameObject{
+  start(){
+    this.addComponent(new StartDrawComponent())
+  }
+}
+
+class StartScene extends Scene{
+  start(){
+    this.addGameObject(new StartControllerGameObject())
+    this.addGameObject(new StartDrawGameObject())
+  }
+}
+
 ///////////////////////////////////////////////////////
 ////////////////// INSTRUCTIONS SCENE /////////////////
 ///////////////////////////////////////////////////////
 
-class InstructionsScene extends Scene {
+class InstructionsController extends Component {
   blinkTimer = 0;
   update() {
     if (keysDown["a"]) {
       SceneManager.changeScene(2)
     }
   }
+}
 
+class InstructionsDrawComponent extends Component{
   draw(ctx) {
     ctx.fillStyle = "#FFD580";
     ctx.fillRect(0, 0, 390, 320);
@@ -57,11 +82,30 @@ class InstructionsScene extends Scene {
   }
 }
 
+class InstructionsControllerGameObject extends GameObject{
+  start(){
+    this.addComponent(new InstructionsController())
+  }
+}
+
+class InstructionsDrawGameObject extends GameObject{
+  start(){
+    this.addComponent(new InstructionsDrawComponent())
+  }
+}
+
+class InstructionsScene extends Scene {
+  start() {
+    this.addGameObject(new InstructionsControllerGameObject())
+    this.addGameObject(new InstructionsDrawGameObject())
+}
+}
+
 /////////////////////////////////////////////////
 ////////////////// LEVELS SCENE /////////////////
 /////////////////////////////////////////////////
 
-class Levels extends Scene {
+class LevelsController extends Component {
   level(levelNumber) {
     this.level = levelNumber
   }
@@ -78,14 +122,41 @@ class Levels extends Scene {
       SceneManager.changeScene(3)
     }
   }
+}
+
+class LevelsDrawComponent extends Component{
+  constructor(levelsController) {
+    super();
+    this.levelsController = levelsController;
+  }
+
   draw(ctx) {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, 390, 320);
     ctx.fillStyle = "white";
-    ctx.fillText("LEVEL " + this.level, 170, 140);
-    ctx.fillText("LIVES: " + this.lives, 170, 160);
+    ctx.fillText("LEVEL " + this.levelsController.level, 170, 140);
+    ctx.fillText("LIVES: " + this.levelsController.lives, 170, 160);
   }
+}
 
+class LevelsControllerGameObject extends GameObject {
+  start() {
+    this.addComponent(new LevelsController())
+  }
+}
+
+class LevelsDrawGameObject extends GameObject {
+  start() {
+    const levelsController = SceneManager.getActiveScene().getGameObject("LevelsController").getComponent(LevelsController);
+    this.addComponent(new LevelsDrawComponent(levelsController));
+  }
+}
+
+class LevelsScene extends Scene {
+  start() {
+      this.addGameObject(new LevelsControllerGameObject())
+      this.addGameObject(new LevelsDrawGameObject())
+  }
 }
 
 ///////////////////////////////////////////////
@@ -233,13 +304,15 @@ class MainScene extends Scene {
 ////////////////// END SCENE /////////////////
 //////////////////////////////////////////////
 
-class EndScene extends Scene {
+class EndController extends Component {
   update() {
     if (keysDown[" "]) {
       SceneManager.changeScene(2)
     }
   }
+}
 
+class EndDrawComponent extends Component{
   draw(ctx) {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, 390, 320);
@@ -249,15 +322,17 @@ class EndScene extends Scene {
   }
 }
 
+class EndScene extends Scene{
+  start(){
+    this.addGameObject(new GameObject().addComponent(new EndController()))
+    this.addGameObject(new GameObject().addComponent(new EndDrawComponent()))
+  }
+}
+
 let startScene = new StartScene()
 let instructionsScene = new InstructionsScene()
 let mainScene = new MainScene()
 let endScene = new EndScene()
-let levels = new Levels()
+let levelsScene = new LevelsScene()
 
-SceneManager.addScene(startScene)
-SceneManager.addScene(instructionsScene)
-SceneManager.addScene(levels)
-SceneManager.addScene(mainScene)
-SceneManager.addScene(endScene)
-
+window.allScenes = [startScene, instructionsScene, levelsScene, mainScene, endScene]
