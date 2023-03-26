@@ -86,8 +86,9 @@ function engineUpdate() {
 
   // Reference to the active scene
   let scene = SceneManager.getActiveScene()
+
   if (SceneManager.changedSceneFlag && scene.start) {
-    scene.gameObjets = []
+    scene.gameObjects = []
     SceneManager.changedSceneFlag = false
   }
 
@@ -133,7 +134,7 @@ function engineDraw() {
 
   let scene = SceneManager.getActiveScene()
 
-  //Loop through the components and draw them.
+  //Draw the components
   for (let gameObject of scene.gameObjects) {
     for (let component of gameObject.components) {
       if (component.draw) {
@@ -144,8 +145,8 @@ function engineDraw() {
 }
 
 function start(title) {
-
   document.title = title
+
   function gameLoop() {
     engineUpdate()
     engineDraw()
