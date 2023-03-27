@@ -12,6 +12,8 @@ import "../engine/engine.js";
 
 class StartController extends Component {
   name = "StartComponent"
+  blinkTimer = 0;
+
   start() {
     this.freezeTime = 0
     this.maxFreezeTime = 1
@@ -28,7 +30,15 @@ class StartController extends Component {
     ctx.fillRect(0, 0, 390, 320);
     ctx.fillStyle = "black";
     ctx.fillText("Welcome to SNAKY!", 145, 130);
-    ctx.fillText("Press the Space Key to start the game", 97, 160);
+
+    this.blinkTimer++;
+    if (this.blinkTimer % 10 < 5) {
+      ctx.fillStyle = "red";
+      ctx.fillText("Press the Space Key to start the game", 97, 160);
+    } else {
+      ctx.fillStyle = "#FFD580";
+      ctx.fillRect(135, 260, 140, 20);
+    }
   }
 }
 
@@ -61,9 +71,9 @@ class InstructionsController extends Component {
     ctx.fillRect(0, 0, 390, 320);
     ctx.fillStyle = "black";
     ctx.fillText("Instructions on how to play:", 125, 90);
-    ctx.fillText("1. Hold the left or right arrow keys to move the paddle back and forth", 40, 140);
-    ctx.fillText("2. Press P to pause the game", 120, 160);
-    ctx.fillText("3. With the level increasing every 5 points, the paddle gets shorter.", 47, 180);
+    ctx.fillText("1. Use the arrow keys to move the snake around.", 80, 140);
+    ctx.fillText("2. Press P to pause the game.", 120, 160);
+    ctx.fillText("3. With the level increasing every 10 points, the snake moves faster.", 47, 180);
     ctx.fillText("4. DO NOT DIE!!!!", 145, 200);
 
     this.blinkTimer++;
@@ -227,6 +237,9 @@ class MainController extends Component {
     this.bodySnake[0].x += this.speedX * this.snakeSize;
     this.bodySnake[0].y += this.speedY * this.snakeSize;
 
+    // If game is paused
+  
+
   }
 
   draw(ctx) {
@@ -284,11 +297,13 @@ class EndController extends Component {
 
 class EndDrawComponent extends Component{
   draw(ctx) {
+    this.lives = 3;
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, 390, 320);
     ctx.fillStyle = "red";
     ctx.fillText("You died", 169, 130);
-    ctx.fillText("Press the Space key to try again", 115, 160);
+    ctx.fillText("LIVES: " + this.lives, 170, 150);
+    ctx.fillText("Press the Space key to try again", 115, 170);
   }
 }
 
