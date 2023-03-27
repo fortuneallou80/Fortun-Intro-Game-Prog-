@@ -47,15 +47,15 @@ class StartScene extends Scene{
 ///////////////////////////////////////////////////////
 
 class InstructionsController extends Component {
+  name = "InstructionsComponent"
   blinkTimer = 0;
+
   update() {
     if (keysDown["a"]) {
       SceneManager.changeScene(2)
     }
   }
-}
 
-class InstructionsDrawComponent extends Component{
   draw(ctx) {
     ctx.fillStyle = "#FFD580";
     ctx.fillRect(0, 0, 390, 320);
@@ -77,22 +77,9 @@ class InstructionsDrawComponent extends Component{
   }
 }
 
-class InstructionsControllerGameObject extends GameObject{
-  start(){
-    this.addComponent(new InstructionsController())
-  }
-}
-
-class InstructionsDrawGameObject extends GameObject{
-  start(){
-    this.addComponent(new InstructionsDrawComponent())
-  }
-}
-
 class InstructionsScene extends Scene {
   start() {
-    this.addGameObject(new InstructionsControllerGameObject())
-    this.addGameObject(new InstructionsDrawGameObject())
+    this.addGameObject(new GameObject("InstructionsControllerGameObject").addComponent(new InstructionsController()))
   }
 }
 
@@ -101,6 +88,7 @@ class InstructionsScene extends Scene {
 /////////////////////////////////////////////////
 
 class LevelsController extends Component {
+  name = "LevelsComponent"
   level(levelNumber) {
     this.level = levelNumber
   }
@@ -117,40 +105,19 @@ class LevelsController extends Component {
       SceneManager.changeScene(3)
     }
   }
-}
-
-class LevelsDrawComponent extends Component{
-  constructor(levelsController) {
-    super();
-    this.levelsController = levelsController;
-  }
 
   draw(ctx) {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, 390, 320);
     ctx.fillStyle = "white";
-    ctx.fillText("LEVEL " + this.levelsController.level, 170, 140);
-    ctx.fillText("LIVES: " + this.levelsController.lives, 170, 160);
-  }
-}
-
-class LevelsControllerGameObject extends GameObject {
-  start() {
-    this.addComponent(new LevelsController())
-  }
-}
-
-class LevelsDrawGameObject extends GameObject {
-  start() {
-    const levelsController = SceneManager.getActiveScene().getGameObject("LevelsController").getComponent(LevelsController);
-    this.addComponent(new LevelsDrawComponent(levelsController));
+    ctx.fillText("LEVEL " + this.level, 170, 140);
+    ctx.fillText("LIVES: " + this.lives, 170, 160);
   }
 }
 
 class LevelsScene extends Scene {
   start() {
-      this.addGameObject(new LevelsControllerGameObject())
-      this.addGameObject(new LevelsDrawGameObject())
+    this.addGameObject(new GameObject("LevelsControllerGameObject").addComponent(new LevelsController()))
   }
 }
 

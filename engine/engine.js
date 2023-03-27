@@ -92,6 +92,7 @@ function engineUpdate() {
   if (SceneManager.changedSceneFlag && scene.start) {
     scene.gameObjects = []
     SceneManager.changedSceneFlag = false
+    scene.start()
   }
 
   for (let gameObject of scene.gameObjects) {
@@ -160,3 +161,4 @@ function start(title) {
 window.start = start;
 window.engineUpdate = engineUpdate;
 window.engineDraw = engineDraw;
+window.keysDown = keysDown;
