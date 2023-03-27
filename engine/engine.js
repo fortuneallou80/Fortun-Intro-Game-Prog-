@@ -136,6 +136,7 @@ function engineDraw() {
 
   //Draw the components
   for (let gameObject of scene.gameObjects) {
+    console.log("gameObject:", gameObject);
     for (let component of gameObject.components) {
       if (component.draw) {
         component.draw(ctx)

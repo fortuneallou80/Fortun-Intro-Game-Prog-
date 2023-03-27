@@ -163,7 +163,7 @@ class LevelsScene extends Scene {
 ////////////////// MAIN SCENE /////////////////
 ///////////////////////////////////////////////
 
-class MainScene extends Scene {
+class MainController extends Component {
   start() {
     // this.margin = 137;
     // this.size = 140;
@@ -264,8 +264,15 @@ class MainScene extends Scene {
     this.bodySnake[0].y += this.speedY * this.snakeSize;
 
   }
+}
 
-  draw() {
+class MainDrawComponent extends Component{
+  constructor(mainController){
+    super();
+    this.mainController = mainController;
+  }
+  
+  draw(ctx) {
     // View part of MVC
     ctx.fillStyle = "#87CEEB"
     ctx.fillRect(0, 0, 390, 320);
@@ -297,6 +304,26 @@ class MainScene extends Scene {
       ctx.fillStyle = "blue";
       ctx.fillRect(this.foodX, this.foodY, this.snakeSize, this.snakeSize);
     }
+  }
+}
+
+class MainControllerGameObject extends GameObject {
+  start() {
+    this.addComponent(new MainController());
+  }
+}
+
+class MainDrawGameObject extends GameObject {
+  start() {
+    const mainController = SceneManager.getActiveScene().getGameObject("MainController").getComponent(MainController);
+    this.addComponent(new MainDrawComponent(mainController));
+  }
+}
+
+class MainScene extends Scene {
+  start() {
+    this.addGameObject(new MainControllerGameObject());
+    this.addGameObject(new MainDrawGameObject());
   }
 }
 
