@@ -11,14 +11,18 @@ import "../engine/engine.js";
 ////////////////////////////////////////////////
 
 class StartController extends Component {
+  name = "StartComponent"
+  start() {
+    this.freezeTime = 0
+    this.maxFreezeTime = 1
+  }
+  
   update() {
     if (keysDown[" "]) {
       SceneManager.changeScene(1)
     }
   }
-}
-
-class StartDrawComponent extends Component{
+  
   draw(ctx) {
     ctx.fillStyle = "#FFD580";
     ctx.fillRect(0, 0, 390, 320);
@@ -28,22 +32,13 @@ class StartDrawComponent extends Component{
   }
 }
 
-class StartControllerGameObject extends GameObject{
-  start(){
-    this.addComponent(new StartController())
-  }
-}
-
-class StartDrawGameObject extends GameObject{
-  start(){
-    this.addComponent(new StartDrawComponent())
-  }
-}
-
 class StartScene extends Scene{
+  constructor(){
+    super()
+  }
+
   start(){
-    this.addGameObject(new StartControllerGameObject())
-    this.addGameObject(new StartDrawGameObject())
+    this.addGameObject(new GameObject("StartControllerGameObject").addComponent(new StartController()))
   }
 }
 

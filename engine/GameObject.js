@@ -6,7 +6,7 @@ class GameObject{
 
     constructor(name){
         this.name = name;
-        this.addComponent(new TransformStream())
+        this.addComponent(new Transform())
     }
 
     get transform(){

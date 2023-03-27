@@ -2,6 +2,8 @@ import "./SceneManager.js"
 import "./Component.js"
 import "./Scene.js"
 import "./GameObject.js"
+import "./Transform.js"
+import "./Vector2.js"
 
 let canvas = document.querySelector("#canv")
 let ctx = canvas.getContext("2d");
@@ -136,7 +138,6 @@ function engineDraw() {
 
   //Draw the components
   for (let gameObject of scene.gameObjects) {
-    console.log("gameObject:", gameObject);
     for (let component of gameObject.components) {
       if (component.draw) {
         component.draw(ctx)
@@ -157,3 +158,5 @@ function start(title) {
 }
 
 window.start = start;
+window.engineUpdate = engineUpdate;
+window.engineDraw = engineDraw;
