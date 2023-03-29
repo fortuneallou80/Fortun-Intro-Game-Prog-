@@ -186,7 +186,12 @@ class MainController extends Component {
     // Check if snake collides with the screen
     if (this.snakeX < 0 || this.snakeX > 14 * this.snakeSize
       || this.snakeY < 0 || this.snakeY > 12 * this.snakeSize) {
-      SceneManager.changeScene(4)
+        this.lives -= 1; // Reduce lives by 1 when snake dies
+        if (this.lives > 0) {
+          this.resetSnake(); // Reset the snake's position and speed if there are still lives left
+        } else {
+          SceneManager.changeScene(4); // Change to the end scene if no lives are left
+        }
     }
 
     // Check if snake eats the food
@@ -240,6 +245,18 @@ class MainController extends Component {
     // If game is paused
   
 
+  }
+
+  resetSnake() {
+    this.snakeX = this.snakeSize * 2;
+    this.snakeY = this.snakeSize * 2;
+    this.speedX = 0;
+    this.speedY = 0;
+    this.bodySnake = [
+      { x: this.snakeX, y: this.snakeY }, // x and y position of the snake's head
+      { x: this.snakeX - this.snakeSize, y: this.snakeY },
+      { x: this.snakeX - this.snakeSize * 2, y: this.snakeY },
+    ];
   }
 
   draw(ctx) {

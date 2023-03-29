@@ -11,6 +11,7 @@ let ctx = canvas.getContext("2d");
 let keysDown = []
 let mouseX;
 let mouseY
+let blinkTimer = 0
 
 //Not the strings has to be all lowercase, e.g. keydown not keyDown or KeyDown
 document.addEventListener("keydown", keyDown)
