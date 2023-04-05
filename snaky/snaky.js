@@ -48,7 +48,8 @@ class StartScene extends Scene{
   }
 
   start(){
-    this.addGameObject(new GameObject("StartControllerGameObject").addComponent(new StartController()))
+    this.addGameObject(new GameObject("StartControllerGameObject")
+    .addComponent(new StartController()))
   }
 }
 
@@ -89,7 +90,8 @@ class InstructionsController extends Component {
 
 class InstructionsScene extends Scene {
   start() {
-    this.addGameObject(new GameObject("InstructionsControllerGameObject").addComponent(new InstructionsController()))
+    this.addGameObject(new GameObject("InstructionsControllerGameObject")
+    .addComponent(new InstructionsController()))
   }
 }
 
@@ -127,7 +129,8 @@ class LevelsController extends Component {
 
 class LevelsScene extends Scene {
   start() {
-    this.addGameObject(new GameObject("LevelsControllerGameObject").addComponent(new LevelsController()))
+    this.addGameObject(new GameObject("LevelsControllerGameObject")
+    .addComponent(new LevelsController()))
   }
 }
 
@@ -296,7 +299,8 @@ class MainController extends Component {
 
 class MainScene extends Scene {
   start() {
-    this.addGameObject(new GameObject("MainControllerGameObject").addComponent(new MainController()))
+    this.addGameObject(new GameObject("MainControllerGameObject")
+    .addComponent(new MainController()))
   }
 }
 
@@ -337,4 +341,5 @@ let mainScene = new MainScene()
 let endScene = new EndScene()
 let levelsScene = new LevelsScene()
 
-window.allScenes = [startScene, instructionsScene, levelsScene, mainScene, endScene]
+window.allScenes = [startScene, instructionsScene, levelsScene
+  , mainScene, endScene]
