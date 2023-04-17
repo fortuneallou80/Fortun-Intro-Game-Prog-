@@ -61,6 +61,8 @@ class StartScene extends Scene {
     this.addGameObject(new GameObject("StartControllerGameObject")
       .addComponent(new StartController()))
     Camera.main.parent.addComponent(new StartCameraComponent())
+    this.addGameObject(new GameObject("SnakyWelcomeObject")
+      .addComponent(new Text("Welcome to Snaky!", "black")), new Vector2(-125, 20))
   }
 }
 

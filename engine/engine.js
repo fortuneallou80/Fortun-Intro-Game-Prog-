@@ -205,7 +205,7 @@ function engineDraw() {
   for (let i = min; i <= max; i++) {
     let gameObjects = scene.gameObjects.filter(go => go.layer == i)
 
-    //Draw the components
+    // Draw the components
     for (let gameObject of gameObjects) {
       for (let component of gameObject.components) {
         if (component.draw) {
