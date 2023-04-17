@@ -37,7 +37,7 @@ class StartController extends Component {
   }
 
   draw(ctx) {
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "black";
     ctx.fillText("Welcome to SNAKY!", 145, 130);
 
@@ -79,7 +79,7 @@ class InstructionsController extends Component {
   }
 
   draw(ctx) {
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "black";
     ctx.fillText("Instructions on how to play:", 125, 90);
     ctx.fillText("1. Use the arrow keys to move the snake around.", 80, 140);
@@ -133,7 +133,7 @@ class LevelsController extends Component {
   }
 
   draw(ctx) {
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "white";
     ctx.fillText("LEVEL " + this.level, 170, 140);
     ctx.fillText("LIVES: " + this.lives, 170, 160);
@@ -291,7 +291,7 @@ class MainController extends Component {
 
   draw(ctx) {
     // View part of MVC
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     // Creating Snake
     ctx.fillStyle = "green";
@@ -350,7 +350,7 @@ class EndController extends Component {
 class EndDrawComponent extends Component {
   draw(ctx) {
     this.lives = 3;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "red";
     ctx.fillText("You died", 169, 130);
     ctx.fillText("LIVES: " + this.lives, 170, 150);
