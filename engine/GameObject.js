@@ -3,6 +3,7 @@ class GameObject{
     components = []
     started = false
     markedForDestroy = false
+    markedDoNotDestroyOnLoad = false
 
     constructor(name){
         this.name = name;
@@ -44,6 +45,10 @@ class GameObject{
 
     destroy(){
         this.markedForDestroy = true
+    }
+
+    doNotDestroyOnLoad(){
+        this.markedDoNotDestroyOnLoad = true
     }
 
     static instantiate(gameObject) {

@@ -1,6 +1,11 @@
 class Scene{
     gameObjects = []
 
+    constructor(fillStyle){
+        this.addGameObject(new GameObject("CameraGameObject")
+        .addComponent(new Camera(fillStyle)))
+      }
+
     addGameObject(gameObject, translate = Vector2.zero, scale = Vector2.one, rotation = 0){
         this.gameObjects.push(gameObject);
         gameObject.transform.x = translate.x;

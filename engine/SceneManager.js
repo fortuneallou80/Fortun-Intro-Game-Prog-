@@ -24,6 +24,10 @@ class SceneManager {
     static getActiveScene() {
         return SceneManager.scenes[SceneManager.currentSceneIndex];
     }
+    static getPreviousScene(){
+        if(SceneManager.previousSceneIndex == -1)
+        return
+    }
     static changeScene(index) {
         SceneManager.currentSceneIndex = index
         SceneManager.changedSceneFlag = true

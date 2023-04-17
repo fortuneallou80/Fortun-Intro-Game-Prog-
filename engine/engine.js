@@ -3,6 +3,8 @@ import "./Component.js"
 import "./Scene.js"
 import "./GameObject.js"
 import "./Transform.js"
+import "./Camera.js"
+import "./Text.js"
 import "./Vector2.js"
 
 let canvas = document.querySelector("#canv")
@@ -83,22 +85,44 @@ function keyDown(e) {
 ////////////////// GAME LOOP //////////////////
 ///////////////////////////////////////////////
 
+function gameLoop() {
+  engineUpdate()
+  engineDraw()
+}
+
 // Update the engine
 function engineUpdate() {
+
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+
   if (pause) return
 
   // Reference to the active scene
   let scene = SceneManager.getActiveScene()
 
   if (SceneManager.changedSceneFlag && scene.start) {
+    let camera = scene.gameObjects[0]
     scene.gameObjects = []
+    scene.gameObjects.push(camera)
+
+    let previousScene = SceneManager.getPreviousScene()
+
+    if (previousScene) {
+      for (let gameObject of previousScene.gameObjects) {
+        if (gameObject.markedDoNotDestroyOnLoad) {
+          scene.gameObjects.push(gameObject)
+        }
+      }
+    }
+
+    scene.start(ctx)
     SceneManager.changedSceneFlag = false
-    scene.start()
   }
 
   for (let gameObject of scene.gameObjects) {
     if (gameObject.start && !gameObject.started) {
-      gameObject.start()
+      gameObject.start(ctx)
       gameObject.started = true
     }
   }
@@ -106,7 +130,7 @@ function engineUpdate() {
   for (let gameObject of scene.gameObjects) {
     for (let component of gameObject.components) {
       if (component.start && !component.started) {
-        component.start()
+        component.start(ctx)
         component.started = true
       }
     }
@@ -125,35 +149,107 @@ function engineUpdate() {
   for (let gameObject of scene.gameObjects) {
     for (let component of gameObject.components) {
       if (component.update) {
-        component.update()
+        component.update(ctx)
       }
     }
   }
-
 }
 
+let requestedAspectRatio = 16 / 9
+let logicalWidth = 1
+let letterboxColor = "gray"
+
 function engineDraw() {
-  canvas.width = 390
-  canvas.height = 320
+  // canvas.width = 390
+  // canvas.height = 320
+
+  ctx.fillStyle = Camera.main.fillStyle;
+  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+
+  let browserAspectRatio = canvas.width / canvas.height;
+  let offsetX = 0
+  let offsetY = 0
+  let browserWidth = canvas.width
+
+  if (requestedAspectRatio > browserAspectRatio) {
+    let desiredHeight = canvas.width / requestedAspectRatio
+    let amount = (canvas.height - desiredHeight) / 2
+    offsetY = amount
+  }
+
+  else {
+    let desiredWidth = canvas.height * requestedAspectRatio
+    let amount = (canvas.width - desiredWidth) / 2;
+    offsetX = amount;
+    browserWidth -= 2 * amount
+  }
 
   let scene = SceneManager.getActiveScene()
 
-  //Draw the components
-  for (let gameObject of scene.gameObjects) {
-    for (let component of gameObject.components) {
-      if (component.draw) {
-        component.draw(ctx)
+  ctx.save()
+
+  let logicalScaling = browserWidth / logicalWidth
+  ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2)
+  ctx.scale(logicalScaling, logicalScaling)
+
+  ctx.translate(-Camera.main.transform.x, -Camera.main.transform.y)
+
+  let min = scene.gameObjects
+    .map(go => go.layer)
+    .reduce((previous, current) => Math.min(previous, current))
+
+  let max = scene.gameObjects
+    .map(go => go.layer)
+    .reduce((previous, current) => Math.max(previous, current))
+  
+  for (let i = min; i <= max; i++) {
+    let gameObjects = scene.gameObjects.filter(go => go.layer == i)
+
+    //Draw the components
+    for (let gameObject of gameObjects) {
+      for (let component of gameObject.components) {
+        if (component.draw) {
+          component.draw(ctx)
+        }
       }
     }
   }
+
+  ctx.restore()
+
+  if (requestedAspectRatio > browserAspectRatio) {
+    let desiredHeight = canvas.width / requestedAspectRatio
+    let amount = (canvas.height - desiredHeight) / 2
+    ctx.fillStyle = letterboxColor
+    ctx.fillRect(0, 0, canvas.width, amount);
+    ctx.fillRect(0, canvas.height - amount, canvas.width, amount);
+    offsetY = amount
+  }
+
+  else {
+    let desiredWidth = canvas.height * requestedAspectRatio
+    let amount = (canvas.width - desiredWidth) / 2
+    ctx.fillStyle = letterboxColor
+    ctx.fillRect(0, 0, amount, canvas.height);
+    ctx.fillRect(canvas.width - amount, 0, amount, canvas.height);
+  }
 }
 
-function start(title) {
+function start(title, settings = {}) {
+
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
   document.title = title
 
-  function gameLoop() {
-    engineUpdate()
-    engineDraw()
+  if (settings) {
+    requestedAspectRatio = settings.aspectRatio ?
+      settings.aspectRatio : 16 / 9
+
+    letterboxColor = settings.letterboxColor ?
+      settings.letterboxColor : "black"
+
+    logicalWidth = settings.logicalWidth ?
+      settings.logicalWidth : 100
   }
 
   setInterval(gameLoop, 1000 / 10)

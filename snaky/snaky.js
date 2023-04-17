@@ -6,9 +6,20 @@ import "../engine/engine.js";
 // Scene 3 = Main Scene
 // Scene 4 = End Scene
 
+
 ////////////////////////////////////////////////
 ////////////////// START SCENE /////////////////
 ////////////////////////////////////////////////
+
+class StartCameraComponent extends Component {
+  start() {
+
+  }
+
+  update() {
+    this.parent.transform.x += 0;
+  }
+}
 
 class StartController extends Component {
   name = "StartComponent"
@@ -18,16 +29,15 @@ class StartController extends Component {
     this.freezeTime = 0
     this.maxFreezeTime = 1
   }
-  
+
   update() {
     if (keysDown[" "]) {
       SceneManager.changeScene(1)
     }
   }
-  
+
   draw(ctx) {
-    ctx.fillStyle = "#FFD580";
-    ctx.fillRect(0, 0, 390, 320);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
     ctx.fillText("Welcome to SNAKY!", 145, 130);
 
@@ -42,14 +52,15 @@ class StartController extends Component {
   }
 }
 
-class StartScene extends Scene{
-  constructor(){
-    super()
+class StartScene extends Scene {
+  constructor() {
+    super("#FFD580")
   }
 
-  start(){
+  start() {
     this.addGameObject(new GameObject("StartControllerGameObject")
-    .addComponent(new StartController()))
+      .addComponent(new StartController()))
+    Camera.main.parent.addComponent(new StartCameraComponent())
   }
 }
 
@@ -68,8 +79,7 @@ class InstructionsController extends Component {
   }
 
   draw(ctx) {
-    ctx.fillStyle = "#FFD580";
-    ctx.fillRect(0, 0, 390, 320);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
     ctx.fillText("Instructions on how to play:", 125, 90);
     ctx.fillText("1. Use the arrow keys to move the snake around.", 80, 140);
@@ -89,9 +99,13 @@ class InstructionsController extends Component {
 }
 
 class InstructionsScene extends Scene {
+  constructor() {
+    super("#FFD580")
+  }
+
   start() {
     this.addGameObject(new GameObject("InstructionsControllerGameObject")
-    .addComponent(new InstructionsController()))
+      .addComponent(new InstructionsController()))
   }
 }
 
@@ -119,8 +133,7 @@ class LevelsController extends Component {
   }
 
   draw(ctx) {
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, 390, 320);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "white";
     ctx.fillText("LEVEL " + this.level, 170, 140);
     ctx.fillText("LIVES: " + this.lives, 170, 160);
@@ -128,15 +141,29 @@ class LevelsController extends Component {
 }
 
 class LevelsScene extends Scene {
+  constructor() {
+    super("black")
+  }
+
   start() {
     this.addGameObject(new GameObject("LevelsControllerGameObject")
-    .addComponent(new LevelsController()))
+      .addComponent(new LevelsController()))
   }
 }
 
 ///////////////////////////////////////////////
 ////////////////// MAIN SCENE /////////////////
 ///////////////////////////////////////////////
+
+class MainCameraComponent extends Component {
+  start() {
+
+  }
+
+  update() {
+    this.transform.x = 50;
+  }
+}
 
 class MainController extends Component {
   name = "MainComponent"
@@ -189,12 +216,12 @@ class MainController extends Component {
     // Check if snake collides with the screen
     if (this.snakeX < 0 || this.snakeX > 14 * this.snakeSize
       || this.snakeY < 0 || this.snakeY > 12 * this.snakeSize) {
-        this.lives -= 1; // Reduce lives by 1 when snake dies
-        if (this.lives > 0) {
-          this.resetSnake(); // Reset the snake's position and speed if there are still lives left
-        } else {
-          SceneManager.changeScene(4); // Change to the end scene if no lives are left
-        }
+      this.lives -= 1; // Reduce lives by 1 when snake dies
+      if (this.lives > 0) {
+        this.resetSnake(); // Reset the snake's position and speed if there are still lives left
+      } else {
+        SceneManager.changeScene(4); // Change to the end scene if no lives are left
+      }
     }
 
     // Check if snake eats the food
@@ -246,7 +273,7 @@ class MainController extends Component {
     this.bodySnake[0].y += this.speedY * this.snakeSize;
 
     // If game is paused
-  
+
 
   }
 
@@ -264,8 +291,7 @@ class MainController extends Component {
 
   draw(ctx) {
     // View part of MVC
-    ctx.fillStyle = "#87CEEB"
-    ctx.fillRect(0, 0, 390, 320);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Creating Snake
     ctx.fillStyle = "green";
@@ -298,9 +324,14 @@ class MainController extends Component {
 }
 
 class MainScene extends Scene {
+  constructor() {
+    super("#87CEEB")
+  }
+
   start() {
     this.addGameObject(new GameObject("MainControllerGameObject")
-    .addComponent(new MainController()))
+      .addComponent(new MainController()))
+    Camera.main.parent.addComponent(new MainCameraComponent())
   }
 }
 
@@ -316,11 +347,10 @@ class EndController extends Component {
   }
 }
 
-class EndDrawComponent extends Component{
+class EndDrawComponent extends Component {
   draw(ctx) {
     this.lives = 3;
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, 390, 320);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "red";
     ctx.fillText("You died", 169, 130);
     ctx.fillText("LIVES: " + this.lives, 170, 150);
@@ -328,8 +358,12 @@ class EndDrawComponent extends Component{
   }
 }
 
-class EndScene extends Scene{
-  start(){
+class EndScene extends Scene {
+  constructor() {
+    super("black")
+  }
+
+  start() {
     this.addGameObject(new GameObject().addComponent(new EndController()))
     this.addGameObject(new GameObject().addComponent(new EndDrawComponent()))
   }
