@@ -116,8 +116,8 @@ function engineUpdate() {
       }
     }
 
-    scene.start(ctx)
     SceneManager.changedSceneFlag = false
+    scene.start(ctx)
   }
 
   for (let gameObject of scene.gameObjects) {
@@ -136,7 +136,7 @@ function engineUpdate() {
     }
   }
 
-  //Handle destroy here
+  // Handle destroy here
   let keptGameObjects = []
   for (let gameObject of scene.gameObjects) {
     if (!gameObject.markedForDestroy) {
@@ -145,7 +145,7 @@ function engineUpdate() {
   }
   scene.gameObjects = keptGameObjects;
 
-  //Call update on all components with an update function
+  // Call update on all components with an update function
   for (let gameObject of scene.gameObjects) {
     for (let component of gameObject.components) {
       if (component.update) {
@@ -243,7 +243,7 @@ function start(title, settings = {}) {
 
   if (settings) {
     requestedAspectRatio = settings.aspectRatio ?
-      settings.aspectRatio : 16 / 9
+      settings.aspectRatio : 16 / 13
 
     letterboxColor = settings.letterboxColor ?
       settings.letterboxColor : "black"
