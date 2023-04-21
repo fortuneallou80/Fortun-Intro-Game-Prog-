@@ -4,6 +4,7 @@ class GameObject{
     started = false
     markedForDestroy = false
     markedDoNotDestroyOnLoad = false
+    layer = 0
 
     constructor(name){
         this.name = name;
