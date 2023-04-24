@@ -38,13 +38,11 @@ class StartController extends Component {
 
   draw(ctx) {
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.fillStyle = "black";
-    ctx.fillText("Welcome to SNAKY!", 145, 130);
-
     this.blinkTimer++;
     if (this.blinkTimer % 10 < 5) {
       ctx.fillStyle = "red";
-      ctx.fillText("Press the Space Key to start the game", 97, 160);
+      ctx.font = "4px Arial";
+      ctx.fillText("Press the Space Key to start the game", -34, 3);
     } else {
       ctx.fillStyle = "#FFD580";
       ctx.fillRect(135, 260, 140, 20);
@@ -60,7 +58,7 @@ class StartScene extends Scene {
   start() {
     this.addGameObject(new GameObject("StartControllerGameObject")
       .addComponent(new StartController())
-      .addComponent(new Text("Welcome to Snaky!", "black")), new Vector2(145, 130))
+      .addComponent(new Text("Welcome to Snaky!", "black", "5px Arial")), new Vector2(-21, -5))
     Camera.main.parent.addComponent(new StartCameraComponent())
   }
 }
@@ -82,16 +80,18 @@ class InstructionsController extends Component {
   draw(ctx) {
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "black";
-    ctx.fillText("Instructions on how to play:", 125, 90);
-    ctx.fillText("1. Use the arrow keys to move the snake around.", 80, 140);
-    ctx.fillText("2. Press P to pause the game.", 120, 160);
-    ctx.fillText("3. With the level increasing every 10 points, the snake moves faster.", 47, 180);
-    ctx.fillText("4. DO NOT DIE!!!!", 145, 200);
+    ctx.font = "3px Arial";
+    ctx.fillText("Instructions on how to play:", -17, -28);
+    ctx.fillText("1. Use the arrow keys to move the snake around.", -37, -18);
+    ctx.fillText("2. Press P to pause the game.", -37, -12);
+    ctx.fillText("3. With the level increasing every 10 points, the snake", -37, -6);
+    ctx.fillText("moves faster.", -34, 0);
+    ctx.fillText("4. DO NOT DIE!!!!", -37, 6);
 
     this.blinkTimer++;
     if (this.blinkTimer % 10 < 5) {
       ctx.fillStyle = "red";
-      ctx.fillText("PRESS A TO START", 137, 270);
+      ctx.fillText("PRESS A TO START", -13, 25);
     } else {
       ctx.fillStyle = "#FFD580";
       ctx.fillRect(135, 260, 140, 20);
@@ -136,8 +136,9 @@ class LevelsController extends Component {
   draw(ctx) {
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "white";
-    ctx.fillText("LEVEL " + this.level, 170, 140);
-    ctx.fillText("LIVES: " + this.lives, 170, 160);
+    ctx.font = "4px Arial";
+    ctx.fillText("LEVEL " + this.level, -7, -5);
+    ctx.fillText("LIVES: " + this.lives, -7, 3);
   }
 }
 
@@ -307,14 +308,15 @@ class MainController extends Component {
 
     // Level & Points text & Lives
     ctx.fillStyle = "red"
-    ctx.fillText("Level:", 100, 10);
-    ctx.fillText(this.level, 133, 10);
-    ctx.fillText("Points:", 170, 10);
-    ctx.fillText(this.points, 207, 10);
-    ctx.fillText("High Score:", 237, 10);
-    ctx.fillText(this.highScore, 300, 10);
-    ctx.fillText("Lives:", 330, 10);
-    ctx.fillText(this.lives, 360, 10);
+    ctx.font = "4px Arial";
+    ctx.fillText("Level:", 2, -35);
+    ctx.fillText(this.level, 14, -35);
+    ctx.fillText("Points:", 25, -35);
+    ctx.fillText(this.points, 38, -35);
+    ctx.fillText("High Score:", 49, -35);
+    ctx.fillText(this.highScore, 71, -35);
+    ctx.fillText("Lives:", 90, -35);
+    ctx.fillText(this.lives, 0, 0);
 
     // Creating Food
     if (this.foodX !== undefined && this.foodY !== undefined) {
