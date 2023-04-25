@@ -124,8 +124,14 @@ class LevelsController extends Component {
     this.freezeTime = 0
     this.maxFreezeTime = 1
     this.lives = 3;
-    this.level = 1
+    let previousScene = SceneManager.getPreviousScene();
+    if (previousScene && previousScene.gameObjectList) {
+      this.level = Math.floor((previousScene.gameObjectList[0].getComponent("MainComponent").points - 1) / 5) + 1;
+    } else {
+      this.level = 1;
+    }
   }
+
   update() {
     this.freezeTime += 50 / 1000
     if (this.freezeTime >= this.maxFreezeTime) {
@@ -235,18 +241,14 @@ class MainController extends Component {
       this.placeFood()
     }
 
-    if (this.points == 2) {
-      // this.level++;
-      // SceneManager.getActiveScene(2);
+    // Increase point + level
+    if (this.points % 5 === 0 && this.points !== 0 && this.points !== this.prevPoints) {
+    this.level++;
+    this.prevPoints = this.points;
+    if (this.level > 1) {
+      SceneManager.changeScene(2);
     }
-
-    if (this.points == 10) {
-      // this.level++;
-    }
-
-    if (this.points == 15) {
-      // this.level++;
-    }
+  }
 
     // Update the snake movement based on input
     if (keysDown["ArrowUp"] && this.speedY != -1) {
