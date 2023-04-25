@@ -164,6 +164,7 @@ class MainCameraComponent extends Component {
 
   update() {
     this.transform.x = 50;
+    this.transform.y = 41;
   }
 }
 
@@ -173,7 +174,7 @@ class MainController extends Component {
   start() {
     // this.margin = 137;
     // this.size = 140;
-    this.snakeSize = 25;
+    this.snakeSize = 5;
     this.snakeX = this.snakeSize * 2;
     this.snakeY = this.snakeSize * 2;
     this.foodX;
@@ -212,12 +213,12 @@ class MainController extends Component {
     this.foodY = Math.floor(Math.random() * 13) * this.snakeSize;
   }
 
-  update() {
+  update(ctx) {
     //Model of MVC
-
+  
     // Check if snake collides with the screen
-    if (this.snakeX < 0 || this.snakeX > 14 * this.snakeSize
-      || this.snakeY < 0 || this.snakeY > 12 * this.snakeSize) {
+    if (this.snakeX < 0 || this.snakeX >= 93 || this.snakeY < 0 
+      || this.snakeY >= 76) {
       this.lives -= 1; // Reduce lives by 1 when snake dies
       if (this.lives > 0) {
         this.resetSnake(); // Reset the snake's position and speed if there are still lives left
@@ -309,14 +310,14 @@ class MainController extends Component {
     // Level & Points text & Lives
     ctx.fillStyle = "red"
     ctx.font = "4px Arial";
-    ctx.fillText("Level:", 2, -35);
-    ctx.fillText(this.level, 14, -35);
-    ctx.fillText("Points:", 25, -35);
-    ctx.fillText(this.points, 38, -35);
-    ctx.fillText("High Score:", 49, -35);
-    ctx.fillText(this.highScore, 71, -35);
-    ctx.fillText("Lives:", 90, -35);
-    ctx.fillText(this.lives, 0, 0);
+    ctx.fillText("Level:", 2, 5);
+    ctx.fillText(this.level, 14, 5);
+    ctx.fillText("Points:", 25, 5);
+    ctx.fillText(this.points, 38, 5);
+    ctx.fillText("High Score:", 49, 5);
+    ctx.fillText(this.highScore, 71, 5);
+    ctx.fillText("Lives:", 82, 5);
+    ctx.fillText(this.lives, 94, 5);
 
     // Creating Food
     if (this.foodX !== undefined && this.foodY !== undefined) {
@@ -355,9 +356,10 @@ class EndDrawComponent extends Component {
     this.lives = 3;
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "red";
-    ctx.fillText("You died", 169, 130);
-    ctx.fillText("LIVES: " + this.lives, 170, 150);
-    ctx.fillText("Press the Space key to try again", 115, 170);
+    ctx.font = "4px Arial";
+    ctx.fillText("You died", -7, -5);
+    ctx.fillText("LIVES: " + this.lives, -7, 1);
+    ctx.fillText("Press the Space key to try again", -26, 12);
   }
 }
 
