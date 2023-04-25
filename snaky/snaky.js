@@ -242,13 +242,10 @@ class MainController extends Component {
     }
 
     // Increase point + level
-    if (this.points % 5 === 0 && this.points !== 0 && this.points !== this.prevPoints) {
+    if (this.points % 10 === 0 && this.points !== 0 && this.points !== this.prevPoints) {
     this.level++;
     this.prevPoints = this.points;
-    if (this.level > 1) {
-      SceneManager.changeScene(2);
     }
-  }
 
     // Update the snake movement based on input
     if (keysDown["ArrowUp"] && this.speedY != -1) {
