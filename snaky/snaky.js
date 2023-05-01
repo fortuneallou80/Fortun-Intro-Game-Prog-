@@ -37,7 +37,6 @@ class StartController extends Component {
   }
 
   draw(ctx) {
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     this.blinkTimer++;
     if (this.blinkTimer % 10 < 5) {
       ctx.fillStyle = "red";
@@ -78,7 +77,6 @@ class InstructionsController extends Component {
   }
 
   draw(ctx) {
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "black";
     ctx.font = "3px Arial";
     ctx.fillText("Instructions on how to play:", -17, -28);
@@ -140,7 +138,6 @@ class LevelsController extends Component {
   }
 
   draw(ctx) {
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "white";
     ctx.font = "4px Arial";
     ctx.fillText("LEVEL " + this.level, -7, -5);
@@ -178,8 +175,6 @@ class MainController extends Component {
   name = "MainComponent"
 
   start() {
-    // this.margin = 137;
-    // this.size = 140;
     this.snakeSize = 5;
     this.snakeX = this.snakeSize * 2;
     this.snakeY = this.snakeSize * 2;
@@ -220,10 +215,9 @@ class MainController extends Component {
   }
 
   update(ctx) {
-    //Model of MVC
-  
+
     // Check if snake collides with the screen
-    if (this.snakeX < 0 || this.snakeX >= 93 || this.snakeY < 0 
+    if (this.snakeX < 0 || this.snakeX >= 93 || this.snakeY < 0
       || this.snakeY >= 76) {
       this.lives -= 1; // Reduce lives by 1 when snake dies
       if (this.lives > 0) {
@@ -243,8 +237,8 @@ class MainController extends Component {
 
     // Increase point + level
     if (this.points % 10 === 0 && this.points !== 0 && this.points !== this.prevPoints) {
-    this.level++;
-    this.prevPoints = this.points;
+      this.level++;
+      this.prevPoints = this.points;
     }
 
     // Update the snake movement based on input
@@ -274,7 +268,7 @@ class MainController extends Component {
     this.bodySnake[0].x += this.speedX * this.snakeSize;
     this.bodySnake[0].y += this.speedY * this.snakeSize;
 
-    // If game is paused
+    // Take care of High score here
 
 
   }
@@ -292,8 +286,6 @@ class MainController extends Component {
   }
 
   draw(ctx) {
-    // View part of MVC
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     // Creating Snake
     ctx.fillStyle = "green";
@@ -352,7 +344,7 @@ class EndController extends Component {
 
 class EndDrawComponent extends Component {
   draw(ctx) {
-    this.lives = 3;
+    this.lives = 0;
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "red";
     ctx.font = "4px Arial";
