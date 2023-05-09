@@ -6,7 +6,6 @@ import "../engine/engine.js";
 // Scene 3 = Main Scene
 // Scene 4 = End Scene
 
-
 ////////////////////////////////////////////////
 ////////////////// START SCENE /////////////////
 ////////////////////////////////////////////////
@@ -223,6 +222,7 @@ class MainController extends Component {
       if (this.lives > 0) {
         this.resetSnake(); // Reset the snake's position and speed if there are still lives left
       } else {
+        SceneManager.points = this.points; // Store the points
         SceneManager.changeScene(4); // Change to the end scene if no lives are left
       }
     }
@@ -289,6 +289,7 @@ class MainController extends Component {
 
     // Creating Snake
     ctx.fillStyle = "green";
+
     for (let i = 0; i < this.bodySnake.length; i++) {
       const segment = this.bodySnake[i];
       ctx.fillRect(segment.x, segment.y, this.snakeSize, this.snakeSize)
@@ -344,13 +345,14 @@ class EndController extends Component {
 
 class EndDrawComponent extends Component {
   draw(ctx) {
-    this.lives = 0;
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    // Get the points
+    this.endPoints = SceneManager.points;
+
     ctx.fillStyle = "red";
     ctx.font = "4px Arial";
     ctx.fillText("You died", -7, -5);
-    ctx.fillText("LIVES: " + this.lives, -7, 1);
-    ctx.fillText("Press the Space key to try again", -26, 12);
+    ctx.fillText("YOUR SCORE: " + this.endPoints, -15, 1);
+    ctx.fillText("Press the Space key to try again", -27, 12);
   }
 }
 
@@ -360,8 +362,9 @@ class EndScene extends Scene {
   }
 
   start() {
-    this.addGameObject(new GameObject().addComponent(new EndController()))
-    this.addGameObject(new GameObject().addComponent(new EndDrawComponent()))
+    this.addGameObject(new GameObject("EndControllerGameObject")
+    .addComponent(new EndController()))
+    .addComponent(new EndDrawComponent())
   }
 }
 
