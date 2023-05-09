@@ -188,7 +188,8 @@ class MainController extends Component {
     ];
     this.points = 0;
     this.level = 1;
-    this.highScore = 0
+    this.highScore = sessionStorage.getItem("highScore") 
+    ? parseInt(sessionStorage.getItem("highScore")) : 0;
     this.lives = 3;
     this.placeFood();
   }
@@ -269,8 +270,10 @@ class MainController extends Component {
     this.bodySnake[0].y += this.speedY * this.snakeSize;
 
     // Take care of High score here
-
-
+    if (this.points > this.highScore){
+      this.highScore = this.points;
+      sessionStorage.setItem("highScore", this.highScore);
+    }
   }
 
   resetSnake() {
