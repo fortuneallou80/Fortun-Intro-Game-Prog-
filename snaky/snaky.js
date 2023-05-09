@@ -188,8 +188,8 @@ class MainController extends Component {
     ];
     this.points = 0;
     this.level = 1;
-    this.highScore = sessionStorage.getItem("highScore") 
-    ? parseInt(sessionStorage.getItem("highScore")) : 0;
+    this.highScore = sessionStorage.getItem("highScore")
+      ? parseInt(sessionStorage.getItem("highScore")) : 0;
     this.lives = 3;
     this.placeFood();
   }
@@ -270,7 +270,7 @@ class MainController extends Component {
     this.bodySnake[0].y += this.speedY * this.snakeSize;
 
     // Take care of High score here
-    if (this.points > this.highScore){
+    if (this.points > this.highScore) {
       this.highScore = this.points;
       sessionStorage.setItem("highScore", this.highScore);
     }
@@ -287,37 +287,46 @@ class MainController extends Component {
       { x: this.snakeX - this.snakeSize * 2, y: this.snakeY },
     ];
   }
+}
+
+class MainDrawComponent extends Component {
+  constructor(mainController) {
+    super();
+    this.mainController = mainController;
+  }
 
   draw(ctx) {
 
     // Creating Snake
     ctx.fillStyle = "green";
 
-    for (let i = 0; i < this.bodySnake.length; i++) {
-      const segment = this.bodySnake[i];
-      ctx.fillRect(segment.x, segment.y, this.snakeSize, this.snakeSize)
+    for (let i = 0; i < this.mainController.bodySnake.length; i++) {
+      const segment = this.mainController.bodySnake[i];
+      ctx.fillRect(segment.x, segment.y, this.mainController.snakeSize,
+        this.mainController.snakeSize)
     }
 
     // Updating position of snake
-    this.snakeX = this.bodySnake[0].x;
-    this.snakeY = this.bodySnake[0].y;
+    this.mainController.snakeX = this.mainController.bodySnake[0].x;
+    this.mainController.snakeY = this.mainController.bodySnake[0].y;
 
     // Level & Points text & Lives
     ctx.fillStyle = "red"
     ctx.font = "4px Arial";
     ctx.fillText("Level:", 2, 5);
-    ctx.fillText(this.level, 14, 5);
+    ctx.fillText(this.mainController.level, 14, 5);
     ctx.fillText("Points:", 25, 5);
-    ctx.fillText(this.points, 38, 5);
+    ctx.fillText(this.mainController.points, 38, 5);
     ctx.fillText("High Score:", 49, 5);
-    ctx.fillText(this.highScore, 71, 5);
+    ctx.fillText(this.mainController.highScore, 71, 5);
     ctx.fillText("Lives:", 82, 5);
-    ctx.fillText(this.lives, 94, 5);
+    ctx.fillText(this.mainController.lives, 94, 5);
 
     // Creating Food
-    if (this.foodX !== undefined && this.foodY !== undefined) {
+    if (this.mainController.foodX !== undefined && this.mainController.foodY !== undefined) {
       ctx.fillStyle = "blue";
-      ctx.fillRect(this.foodX, this.foodY, this.snakeSize, this.snakeSize);
+      ctx.fillRect(this.mainController.foodX, this.mainController.foodY,
+        this.mainController.snakeSize, this.mainController.snakeSize);
     }
   }
 }
@@ -328,8 +337,10 @@ class MainScene extends Scene {
   }
 
   start() {
+    const mainController = new MainController()
     this.addGameObject(new GameObject("MainControllerGameObject")
-      .addComponent(new MainController()))
+      .addComponent(mainController)
+      .addComponent(new MainDrawComponent(mainController)))
     Camera.main.parent.addComponent(new MainCameraComponent())
   }
 }
@@ -366,8 +377,8 @@ class EndScene extends Scene {
 
   start() {
     this.addGameObject(new GameObject("EndControllerGameObject")
-    .addComponent(new EndController()))
-    .addComponent(new EndDrawComponent())
+      .addComponent(new EndController()))
+      .addComponent(new EndDrawComponent())
   }
 }
 
