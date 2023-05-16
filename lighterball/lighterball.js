@@ -31,8 +31,8 @@ class LighterBallController extends Component {
     
     constructor() {
         super();
-        this.radius = 5;
-        this.color = 'red';
+        this.radius = 2;
+        this.color = "orange";
         this.speed = 5;
         this.ColorComponent = new ColorComponent();
         this.ColorComponent.start();
