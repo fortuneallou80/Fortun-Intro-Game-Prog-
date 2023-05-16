@@ -2,19 +2,25 @@ import "../engine/engine.js";
 
 class ColorComponent extends Component {
 
-    start() {
-        this.time = 50
+    constructor(startingTime) {
+        super();
+        this.time = startingTime
         this.up = true
+        this.move = 5
+    }
+
+    start() {
+
     }
 
     update(movingRight) {
         if (movingRight) {
-            this.time++;
+            this.time += this.move;
             if (this.time >= 255)
                 this.time = 255;
         }
         else {
-            this.time--
+            this.time -= this.move
             if (this.time <= 0) {
                 this.time = 0;
             }
@@ -34,8 +40,8 @@ class LighterBallController extends Component {
         this.radius = 2;
         this.color = "orange";
         this.speed = 5;
-        this.ColorComponent = new ColorComponent();
-        this.ColorComponent.start();
+        this.ColorComponent = new ColorComponent(50);
+        // this.ColorComponent.start();
     }
 
     start() {
