@@ -34,14 +34,13 @@ class ColorComponent extends Component {
 
 class LighterBallController extends Component {
     name = "LighterBallController"
-    
+
     constructor() {
         super();
         this.radius = 2;
         this.color = "orange";
         this.speed = 5;
         this.ColorComponent = new ColorComponent(50);
-        // this.ColorComponent.start();
     }
 
     start() {
@@ -68,8 +67,8 @@ class LighterBallDrawComponent extends Component {
     }
 
     draw(ctx) {
-        ctx.arc(this.lighterBallController.transform.x, this.lighterBallController.transform.y, 
-                this.lighterBallController.radius, 0, Math.PI * 2, false);
+        ctx.arc(this.lighterBallController.transform.x, this.lighterBallController.transform.y,
+            this.lighterBallController.radius, 0, Math.PI * 2, false);
         ctx.fillStyle = this.lighterBallController.color;
         ctx.fill();
     }
@@ -77,7 +76,7 @@ class LighterBallDrawComponent extends Component {
 
 class LighterBallScene extends Scene {
     constructor() {
-        super(); 
+        super();
     }
 
     start() {
