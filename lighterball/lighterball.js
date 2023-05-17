@@ -1,5 +1,67 @@
 import "../engine/engine.js";
 
+// Scene 0 = Start Scene
+// Scene 1 = Main Scene
+
+////////////////////////////////////////////////
+////////////////// START SCENE /////////////////
+////////////////////////////////////////////////
+
+class StartCameraComponent extends Component {
+    start() {
+  
+    }
+  
+    update() {
+      this.parent.transform.x += 0;
+    }
+  }
+
+class StartController extends Component {
+    name = "StartComponent"
+    blinkTimer = 0;
+  
+    start() {
+      this.freezeTime = 0
+      this.maxFreezeTime = 1
+    }
+  
+    update() {
+      if (keysDown[" "]) {
+        SceneManager.changeScene(1)
+      }
+    }
+  
+    draw(ctx) {
+      this.blinkTimer++;
+      if (this.blinkTimer % 10 < 5) {
+        ctx.fillStyle = "red";
+        ctx.font = "4px Courier New";
+        ctx.fillText("Press the Space Key to start", -33, 3);
+      } else {
+        ctx.fillStyle = "#FFD580";
+        ctx.fillRect(135, 260, 140, 20);
+      }
+    }
+  }
+  
+  class StartScene extends Scene {
+    constructor() {
+      super("#F0FFFF")
+    }
+  
+    start() {
+      this.addGameObject(new GameObject("StartControllerGameObject")
+        .addComponent(new StartController())
+        .addComponent(new Text("Welcome to LIGHTER!", "black", "5px Courier New")), new Vector2(-27, -5))
+      Camera.main.parent.addComponent(new StartCameraComponent())
+    }
+  }
+
+////////////////////////////////////////////////
+////////////////// MAIN SCENE //////////////////
+////////////////////////////////////////////////
+
 class ColorComponent extends Component {
 
     constructor(startingTime) {
@@ -87,5 +149,6 @@ class LighterBallScene extends Scene {
     }
 }
 
+let startScene = new StartScene()
 let lighterBallScene = new LighterBallScene();
-window.allScenes = [lighterBallScene];
+window.allScenes = [startScene, lighterBallScene];
